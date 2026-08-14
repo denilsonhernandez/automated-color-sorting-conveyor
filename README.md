@@ -1,12 +1,15 @@
 # automated-color-sorting-conveyor
 Arduino-based automated conveyor system designed to detect objects by color and automatically route them to the corresponding container.
-![Color Sorting Conveyor](images/prototype.jpg)
+
+<p align="center">
+  <img src="images/prototype.jpg" width="700">
+</p>
 
 ## Overview
 
 The objective of this project was to design and build an automated sorting system capable of transporting objects, identifying their color, and separating them into different containers.
 
-The prototype integrates sensors, servo motors, a stepper motor, and embedded software to create a complete automated material-handling process.
+The prototype integrates sensors, servo motors, a stepper motor, mechanical components, and embedded software to create a complete automated material-handling process.
 
 The system identifies three colors:
 
@@ -24,9 +27,10 @@ Depending on the detected color, the Arduino controls the corresponding sorting 
 - Servo-controlled sorting mechanisms
 - Stepper motor conveyor drive
 - Ultrasonic object detection
-- Object-flow control
+- Automatic object-flow control
 - Arduino C/C++ programming
-- Mechanical and electronic prototyping
+- Mechanical prototyping
+- Hardware/software integration
 
 ## System Architecture
 
@@ -71,63 +75,96 @@ Depending on the detected color, the Arduino controls the corresponding sorting 
 - MDF structure
 - Custom conveyor mechanism
 
+## Mechanical Design
+
+The conveyor structure was designed to transport individual objects through a color-detection area and toward three separate output containers.
+
+Servo-actuated mechanisms were positioned along the conveyor to redirect red and green objects.
+
+Blue objects continued through the conveyor toward the final container.
+
+<p align="center">
+  <img src="images/mechanical-design.png" width="800">
+</p>
+
 ## How It Works
 
-### 1. Object Entry
+### 1. Conveyor Motion
 
-The conveyor transports an object into the sorting area.
+A NEMA 17 stepper motor drives the conveyor belt.
 
-A servo-controlled gate regulates the flow so that only one object enters the classification stage at a time.
+The motor is controlled using an A4988 stepper driver.
 
-### 2. Color Detection
+The Arduino generates STEP pulses that control the movement of the motor.
 
-The color sensor measures the reflected light from the object.
+### 2. Object Entry
 
-The Arduino reads the red, green, and blue frequency components and compares them with calibrated threshold values.
+A servo-controlled gate regulates the flow of objects so that only one object enters the sorting area at a time.
+
+This prevents multiple objects from reaching the color sensor simultaneously.
+
+### 3. Color Detection
+
+The color sensor measures the reflected light from each object.
+
+The firmware reads the red, green, and blue frequency components.
 
 ```text
-Read Red
-   |
-   v
-Read Green
-   |
-   v
-Read Blue
-   |
-   v
-Compare Thresholds
-   |
-+--+-------+--+
-|          |  |
-v          v  v
-Red      Green Blue
+Read Red Frequency
+        |
+        v
+Read Green Frequency
+        |
+        v
+Read Blue Frequency
+        |
+        v
+Compare Calibrated Thresholds
+        |
+   +----+----+
+   |    |    |
+   v    v    v
+  Red Green Blue
 ```
 
-### 3. Sorting
+The measured values are compared against calibrated thresholds to determine the detected color.
+
+## Sorting Logic
 
 Depending on the detected color:
 
 ```text
-RED   -> Activate red sorting servo
-GREEN -> Activate green sorting servo
-BLUE  -> Continue toward the final container
+RED   -> Activate Red Servo
+GREEN -> Activate Green Servo
+BLUE  -> Continue Forward
 ```
 
-### 4. Object Confirmation
+When a red or green object is detected, the corresponding sorting servo redirects the object toward its container.
 
-Ultrasonic sensors detect when the object reaches its corresponding container.
+Blue objects continue directly toward the final container.
 
-After detection:
+## Object Confirmation
 
-- The sorting servo returns to its initial position
-- The entry gate opens
-- The next object is allowed into the system
+Ultrasonic sensors are installed near the output containers.
 
-## Conveyor Motor Control
+They confirm that the object successfully reached its destination.
 
-The conveyor belt is driven by a NEMA 17 stepper motor controlled through an A4988 driver.
+Once an object is detected:
 
-The Arduino generates STEP signals to move the motor and control the conveyor.
+```text
+Object detected in container
+          |
+          v
+Reset sorting servo
+          |
+          v
+Open entry gate
+          |
+          v
+Allow next object
+```
+
+This creates a sequential sorting process and prevents multiple objects from interfering with each other.
 
 ## Control Sequence
 
@@ -150,6 +187,9 @@ Read Color Sensor
   +---- Blue ----> Continue Forward
   |
   v
+Wait for Ultrasonic Detection
+  |
+  v
 Confirm Object Arrival
   |
   v
@@ -157,25 +197,29 @@ Reset Sorting Mechanism
   |
   v
 Allow Next Object
+  |
+  +-------------> Repeat
 ```
+
+## Flowchart
+
+<p align="center">
+  <img src="images/flowchart.png" width="700">
+</p>
 
 ## Electronic Design
 
-![Electronic Diagram](images/electronic-diagram.png)
+The electronic system integrates the Arduino controller with the servo motors, color sensor, ultrasonic sensors, stepper motor, and motor driver.
 
-## Mechanical Design
-
-![Mechanical Design](images/mechanical-design.png)
-
-## Demo
-
-![Conveyor Demo](images/demo.gif)
+<p align="center">
+  <img src="images/electronic-diagram.png" width="800">
+</p>
 
 ## Software
 
 The control software was implemented using Arduino C/C++.
 
-The firmware includes:
+The firmware performs several main tasks:
 
 - Stepper motor control
 - RGB color measurement
@@ -184,9 +228,39 @@ The firmware includes:
 - Ultrasonic distance measurement
 - Object-flow sequencing
 
+### Color Detection
+
+The firmware reads each color channel separately.
+
+```cpp
+digitalWrite(S2, LOW);
+digitalWrite(S3, LOW);
+Rojo_Frec = pulseIn(sensorSalida, LOW);
+
+digitalWrite(S2, HIGH);
+digitalWrite(S3, HIGH);
+Verde_Frec = pulseIn(sensorSalida, LOW);
+
+digitalWrite(S2, LOW);
+digitalWrite(S3, HIGH);
+Azul_Frec = pulseIn(sensorSalida, LOW);
+```
+
+The measured values are then compared with threshold values to determine the detected color.
+
+## Demo
+
+The following demonstration shows the conveyor identifying and sorting colored objects.
+
+<p align="center">
+  <img src="images/demo.gif" width="700">
+</p>
+
 ## Results
 
 The prototype successfully integrated sensing, actuation, mechanical movement, and embedded control into an automated color-sorting system.
+
+Objects were transported through the conveyor, identified according to color, and directed toward their corresponding output area.
 
 ## Skills Demonstrated
 
@@ -200,8 +274,8 @@ The prototype successfully integrated sensing, actuation, mechanical movement, a
 - Automation logic
 - Mechanical prototyping
 - Hardware/software integration
-- Troubleshooting
+- System troubleshooting
 
 ## Academic Context
 
-Developed as an academic automation project at the Universidad Autónoma de Nuevo León (UANL), Faculty of Mechanical and Electrical Engineering.
+Developed as an academic Automation project at the Universidad Autónoma de Nuevo León (UANL), Faculty of Mechanical and Electrical Engineering.

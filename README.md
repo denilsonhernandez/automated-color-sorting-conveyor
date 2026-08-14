@@ -84,7 +84,7 @@ Servo-actuated mechanisms were positioned along the conveyor to redirect red and
 Blue objects continued through the conveyor toward the final container.
 
 <p align="center">
-  <img src="images/mechanical-design.png" width="800">
+  <img src="images/mechanical-desing.png" width="800">
 </p>
 
 ## How It Works

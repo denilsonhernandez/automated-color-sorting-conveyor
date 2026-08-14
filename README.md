@@ -256,6 +256,10 @@ The following demonstration shows the conveyor identifying and sorting colored o
   <img src="images/demo.gif" width="700">
 </p>
 
+### Full Demonstration
+
+[▶ Watch the full project demonstration on YouTube]([https://www.youtube.com/XXXXXXXX](https://youtube.com/shorts/kD23a2wlSRw?si=lJfrxw2Kme5_clSa))
+
 ## Results
 
 The prototype successfully integrated sensing, actuation, mechanical movement, and embedded control into an automated color-sorting system.

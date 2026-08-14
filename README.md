@@ -256,9 +256,11 @@ The following demonstration shows the conveyor identifying and sorting colored o
   <img src="images/demo.gif" width="700">
 </p>
 
-### Full Demonstration
+### Full Demonstration Video
 
-[▶ Watch the full project demonstration on YouTube]([https://www.youtube.com/XXXXXXXX](https://youtube.com/shorts/kD23a2wlSRw?si=lJfrxw2Kme5_clSa))
+A complete demonstration of the automated color-sorting system is available on YouTube.
+
+[▶ Watch the full demonstration on YouTube](https://youtube.com/shorts/kD23a2wlSRw?si=lJfrxw2Kme5_clSa)
 
 ## Results
 

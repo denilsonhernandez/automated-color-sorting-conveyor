@@ -2,7 +2,7 @@
 Arduino-based automated conveyor system designed to detect objects by color and automatically route them to the corresponding container.
 
 <p align="center">
-  <img src="images/prototype.jpg" width="700">
+  <img src="images/prototype.jpeg" width="700">
 </p>
 
 ## Overview
@@ -204,7 +204,7 @@ Allow Next Object
 ## Flowchart
 
 <p align="center">
-  <img src="images/flowchart.png" width="700">
+  <img src="images/flowchart.jpg" width="700">
 </p>
 
 ## Electronic Design
@@ -212,7 +212,7 @@ Allow Next Object
 The electronic system integrates the Arduino controller with the servo motors, color sensor, ultrasonic sensors, stepper motor, and motor driver.
 
 <p align="center">
-  <img src="images/electronic-diagram.png" width="800">
+  <img src="images/electronic-diagram.jpg" width="800">
 </p>
 
 ## Software
